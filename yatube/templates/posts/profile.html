@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Профайл пользователя {{ client.get_full_name }}{% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+      <div class="container py-5">        
+        <h1>Все посты пользователя {{ client.get_full_name }} </h1>
+        <h3>Всего постов: {{ user_posts }} </h3>   
+        <!--Кнопок под самим собой же не будет-->
+        {% if is_myself %}
+        {% else %}
+          <div class="mb-5">
+            {% if following %}
+              <a
+                class="btn btn-lg btn-light"
+                href="{% url 'posts:profile_unfollow' client.username %}" role="button"
+              >
+                Отписаться
+              </a>
+            {% else %}
+              <a
+                class="btn btn-lg btn-primary"
+                href="{% url 'posts:profile_follow' client.username %}" role="button"
+              >
+                Подписаться
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+        <article>
+         {% for post in page_obj %}
+          <ul>
+            <li>
+              Автор: {{ client.get_full_name }}
+              <a href="{% url 'posts:profile' post.author %}">все посты пользователя</a>
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+          </ul>
+          <article class="col-12 col-md-9">
+            {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+              <img class="card-img my-2" src="{{ im.url }}">
+            {% endthumbnail %}
+          </article>
+          <p>
+          {{ post.text|linebreaksbr }}
+          </p>
+          <a href="{% url 'posts:post_detail' post.pk %}">подробная информация <br></a>
+          {% if post.group %} 
+            <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>   
+          {% endif %}
+          {% if not forloop.last %}<hr>{% endif %}
+         {% endfor %}
+        </article>       
+        <!--<a href=" ">все записи группы</a>-->        
+        <!-- Остальные посты. после последнего нет черты -->
+        <!-- Здесь подключён паджинатор --> 
+        {% include 'posts/includes/paginator.html' %}
+      </div>
+{% endblock %} 

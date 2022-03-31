@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+<h1>Привет, я автор</h1>
+<p>
+  Привет! Меня зовут Дмитрий. Этот сайт мой первый серьезный проект.
+  Мир программирования меня заинтересовал в школьные года, и да все начинается с Pascal.
+  В настоящее время пишу на python и c++.
+  Во время работы мне помогал мой коллега плюшевый динозавр Гоша. Вот и он собственной персоной
+  <img src="https://topsto-crimea.ru/images/detailed/1797/1595083315.4186.jpg" height="300px"/>
+    <h2>
+    <a href="https://github.com/Dimanitto" target="_blank">Мой гитхаб</a>
+    </h2>
+</p>
+<body>
+    <div class="container">
+        <h1 class="text-center">Мое рабочее пространство</h1>
+        <img class="w-50 mx-auto d-block" src="{% static 'img/about_me.jpg' %}" alt="photo">
+    </div>
+</body>
+{% endblock %}
